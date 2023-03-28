@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.screens.title
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentMainBinding
 
 /**
@@ -22,7 +23,8 @@ class MainFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_main, container, false)
-        val binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater, R.layout.fragment_main,container,false)
+        val binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater,
+            R.layout.fragment_main,container,false)
         binding.button.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_gameFragment)
         }
