@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".screens.game.GameFragment">
@@ -15,11 +14,32 @@
             android:orientation="vertical"
             android:id="@+id/game_fragment_test">
 
-            <Button
-                android:id="@+id/test_game_button"
+            <TextView
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:layout_weight="0.1"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="TextView" />
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="448dp"
+                android:layout_gravity="center"
+                android:layout_margin="100px"
+                android:layout_weight="0.5"></TableLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="TextView" />
+
         </LinearLayout>
     </FrameLayout>
 </layout>

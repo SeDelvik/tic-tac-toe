@@ -18,5 +18,14 @@
         android:id="@+id/gameFragment"
         android:name="com.example.myapplication.screens.game.GameFragment"
         android:label="fragment_game"
-        tools:layout="@layout/fragment_game" />
+        tools:layout="@layout/fragment_game" >
+        <argument android:name="size"
+            app:argType="integer" />
+        <argument
+            android:name="name1"
+            app:argType="string" />
+        <argument
+            android:name="name2"
+            app:argType="string" />
+    </fragment>
 </navigation>
