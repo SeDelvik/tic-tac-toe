@@ -67,8 +67,8 @@ class GameFragment : Fragment() {
                     }
                     if (viewModel.newMove(i,j)){
                        (it as Button).text = checkElem
-                        var test = viewModel.checkWin() //считает победу с задержкой
-                        Log.i("TABLE",test.toString())
+                        var test = viewModel.checkWin(i,j) //считает победу с задержкой
+                        Log.i("IS WIN",test.toString())
                     }
 //                    else{
 //                        Log.i("FUCK","всё плохо")

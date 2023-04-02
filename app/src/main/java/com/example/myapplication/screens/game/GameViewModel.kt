@@ -60,89 +60,120 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         return false
     }
 
-    fun checkWin(): Boolean {
+    fun checkWin(i:Int,j:Int): Boolean {
         var checkElem = 1
-        if(_isFirstPlayerTurn.value == false){
+        if(_isFirstPlayerTurn.value == true /*== false*/){
          checkElem = 2
         }
-        for (i in 0 until _size.value!!-1){
-            for (j in 0 until _size.value!!){
-                if(gameTable[i][j] != checkElem){
-                    continue
-                }
-                if (checkRight(checkElem,i,j) || checkRightBottom(checkElem,i,j) ||
-                    checkBottom(checkElem,i,j) || checkLeftBottom(checkElem,i,j)){
-                    Log.i("WIN","IS WIN!!!")
-                    return true
-                }
-            }
-        }
-        return false
+        return (checkLefRight(checkElem,i,j) || checkTopBottom(checkElem,i,j) ||
+                checkDiagonalLeftRight(checkElem,i,j) || checkDiagonalRightLeft(checkElem,i,j))
     }
 
-    private fun checkRight(elem:Int,i:Int,j:Int): Boolean{
-        var count = 0
-        var step = j
-        while(step<_size.value!!){
-            if(gameTable[i][step] != elem){
-                break
-            }
-            count++
-            step++
-        }
-        if((_size.value!! >= 6 && count >= 5)||(_size.value!! <= 5 && count == 3)){
-            return true
-        }
-        return false
-
-    }
-
-    private fun checkRightBottom(elem:Int,i:Int,j:Int):Boolean{
+    private fun checkDiagonalRightLeft(elem:Int,i:Int,j:Int):Boolean{
+        // проверка деагонали с верхнего правого до левого нижнего угла
         var count = 0
         var stepi = i
         var stepj = j
-        while(stepi<_size.value!! && stepj<_size.value!!){
-            if(gameTable[stepi][stepj] != elem){
+        while (stepi >= 0 && stepj >= 0){
+            if (gameTable[stepi][stepj] != elem){
+                break
+            }
+            count++
+            stepi--
+            stepj--
+        }
+        stepi = i
+        stepj = j
+        while (stepi < _size.value!! && stepj < _size.value!!){
+            if (gameTable[stepi][stepj] != elem){
                 break
             }
             count++
             stepi++
             stepj++
         }
+        count--
         if((_size.value!! >= 6 && count >= 5)||(_size.value!! <= 5 && count == 3)){
             return true
         }
         return false
     }
 
-    private fun checkBottom(elem:Int,i:Int,j:Int):Boolean{
-        var count = 0
-        var stepi = i
-        while(stepi<_size.value!!){
-            if(gameTable[stepi][j] != elem){
-                break
-            }
-            count++
-            stepi++
-        }
-        if((_size.value!! >= 6 && count >= 5)||(_size.value!! <= 5 && count == 3)){
-            return true
-        }
-        return false
-    }
-
-    private fun checkLeftBottom(elem:Int,i:Int,j:Int):Boolean{
+    private fun checkDiagonalLeftRight(elem:Int,i:Int,j:Int):Boolean{
+        // проверка деагонали сверхнего правого до левого нижнего угла
         var count = 0
         var stepi = i
         var stepj = j
-        while(stepi<_size.value!! && stepj >= 0){
-            if(gameTable[stepi][stepj] != elem){
+        while (stepi >= 0 && stepj < _size.value!!){
+            if (gameTable[stepi][stepj] != elem){
+                break
+            }
+            count++
+            stepi--
+            stepj++
+        }
+        stepi = i
+        stepj = j
+        while (stepi < _size.value!! && stepj >= 0){
+            if (gameTable[stepi][stepj] != elem){
                 break
             }
             count++
             stepi++
             stepj--
         }
+        count--
+        if((_size.value!! >= 6 && count >= 5)||(_size.value!! <= 5 && count == 3)){
+            return true
+        }
+        return false
+    }
+    private fun checkLefRight(elem:Int,i:Int,j:Int):Boolean{
+        // проверка слева на право
+        var count = 0
+        var stepj = j
+        while (stepj < _size.value!!){
+            if (gameTable[i][stepj] != elem){
+                break
+            }
+            count++
+            stepj++
+        }
+        stepj = j
+        while ( stepj >= 0){
+            if (gameTable[i][stepj] != elem){
+                break
+            }
+            count++
+            stepj--
+        }
+        count--
+        if((_size.value!! >= 6 && count >= 5)||(_size.value!! <= 5 && count == 3)){
+            return true
+        }
+        return false
+    }
+
+    private fun checkTopBottom(elem:Int,i:Int,j:Int):Boolean{
+        // проверка сверху вниз
+        var count = 0
+        var stepi = i
+        while (stepi < _size.value!!){
+            if (gameTable[stepi][j] != elem){
+                break
+            }
+            count++
+            stepi++
+        }
+        stepi = i
+        while ( stepi >= 0){
+            if (gameTable[stepi][j] != elem){
+                break
+            }
+            count++
+            stepi--
+        }
+        count--
         if((_size.value!! >= 6 && count >= 5)||(_size.value!! <= 5 && count == 3)){
             return true
         }
