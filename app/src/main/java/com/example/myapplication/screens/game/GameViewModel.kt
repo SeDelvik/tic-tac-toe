@@ -6,9 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
-//    нужна таблица, проверка что кто то выиграл, слежение за тем кто сейчас ходит
-    var gameTable = mutableListOf<MutableList<Int>>()
-
+//   Todo переехать на строки
+    private var _gameTable = MutableLiveData<MutableList<MutableList<Int>>>() // mutableListOf<MutableList<Int>>()
+    val gameTable: LiveData<MutableList<MutableList<Int>>>
+        get() = _gameTable
 
     private var _size = MutableLiveData<Int>()
     val size: LiveData<Int>
@@ -32,17 +33,20 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         _name2.value = name2
         _isFirstPlayerTurn.value = true
 
+        _gameTable.value = mutableListOf<MutableList<Int>>()
         createArray()
     }
 
     private fun createArray(){
         for (i in 0 until _size.value!!){
             var row = mutableListOf<Int>()
-            gameTable.add(row)
+            _gameTable.value?.add(row)
             for (j in 0 until _size.value!!){
                 row.add(0)
             }
         }
+
+        Log.i("values",_gameTable.value.toString())
     }
 
     fun newMove(i:Int, j:Int): Boolean {
@@ -51,8 +55,8 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         if(_isFirstPlayerTurn.value == false) {
             checkElem = 2
         }
-        if(gameTable[i][j] == 0){
-            gameTable[i][j] = checkElem
+        if(_gameTable.value!![i][j] == 0){
+            _gameTable.value!![i][j]/*[i][j]*/ = checkElem
             _isFirstPlayerTurn.value = !_isFirstPlayerTurn.value!!
             return true
         }
@@ -75,7 +79,7 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         var stepi = i
         var stepj = j
         while (stepi >= 0 && stepj >= 0){
-            if (gameTable[stepi][stepj] != elem){
+            if (_gameTable.value!![stepi][stepj]  != elem){
                 break
             }
             count++
@@ -85,7 +89,7 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         stepi = i
         stepj = j
         while (stepi < _size.value!! && stepj < _size.value!!){
-            if (gameTable[stepi][stepj] != elem){
+            if (_gameTable.value!![stepi][stepj] != elem){
                 break
             }
             count++
@@ -105,7 +109,7 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         var stepi = i
         var stepj = j
         while (stepi >= 0 && stepj < _size.value!!){
-            if (gameTable[stepi][stepj] != elem){
+            if (_gameTable.value!![stepi][stepj] != elem){
                 break
             }
             count++
@@ -115,7 +119,7 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         stepi = i
         stepj = j
         while (stepi < _size.value!! && stepj >= 0){
-            if (gameTable[stepi][stepj] != elem){
+            if (_gameTable.value!![stepi][stepj] != elem){
                 break
             }
             count++
@@ -133,7 +137,7 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         var count = 0
         var stepj = j
         while (stepj < _size.value!!){
-            if (gameTable[i][stepj] != elem){
+            if (_gameTable.value!![i][stepj] != elem){
                 break
             }
             count++
@@ -141,7 +145,7 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         }
         stepj = j
         while ( stepj >= 0){
-            if (gameTable[i][stepj] != elem){
+            if (_gameTable.value!![i][stepj] != elem){
                 break
             }
             count++
@@ -159,7 +163,7 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         var count = 0
         var stepi = i
         while (stepi < _size.value!!){
-            if (gameTable[stepi][j] != elem){
+            if (_gameTable.value!![stepi][j] != elem){
                 break
             }
             count++
@@ -167,7 +171,7 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         }
         stepi = i
         while ( stepi >= 0){
-            if (gameTable[stepi][j] != elem){
+            if (_gameTable.value!![stepi][j] != elem){
                 break
             }
             count++

@@ -54,9 +54,14 @@ class GameFragment : Fragment() {
             tableRow.gravity = Gravity.CENTER
             binding.tableLayout.addView(tableRow)
             for (j in 0 until col){
+                var newText = ""
+                when (viewModel.gameTable.value!![i][j]){
+                    1 -> newText = "O"
+                    2 -> newText = "X"
+                }
                 val button = Button(context)
                 button.layoutParams = params
-                button.text = ""
+                button.text = newText //""
                 button.textSize = 40.0F
 
                 button.setOnClickListener {

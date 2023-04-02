@@ -28,4 +28,13 @@
             android:name="name2"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.example.myapplication.screens.start.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_startFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>
