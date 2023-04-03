@@ -24,14 +24,31 @@
                 android:text="TextView" />
 
 
-
-            <TableLayout
-                android:id="@+id/tableLayout"
-                android:layout_width="match_parent"
-                android:layout_height="448dp"
+            <ScrollView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 android:layout_gravity="center"
-                android:layout_margin="100px"
-                android:layout_weight="0.5"></TableLayout>
+                android:layout_weight="0.5"
+                >
+
+
+                <HorizontalScrollView
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    >
+
+
+                    <TableLayout
+                        android:id="@+id/tableLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                    ></TableLayout>
+
+                </HorizontalScrollView>
+
+
+            </ScrollView>
 
             <TextView
                 android:id="@+id/textView"

@@ -6,8 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
-//   Todo переехать на строки
-    private var _gameTable = MutableLiveData<MutableList<MutableList<String>>>() // mutableListOf<MutableList<Int>>()
+    private var _gameTable = MutableLiveData<MutableList<MutableList<String>>>()
     val gameTable: LiveData<MutableList<MutableList<String>>>
         get() = _gameTable
 

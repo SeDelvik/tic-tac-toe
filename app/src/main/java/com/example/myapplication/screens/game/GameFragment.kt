@@ -61,7 +61,7 @@ class GameFragment : Fragment() {
                //     2 -> newText = "X"
                // }
                 val button = Button(context)
-                button.layoutParams = params
+                //button.layoutParams = params
                 button.text = viewModel.gameTable.value!![i][j]//newText //""
                 button.textSize = 40.0F
 
