@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentGameBinding
 
@@ -32,8 +33,8 @@ class GameFragment : Fragment() {
             R.layout.fragment_game,container,false)
 
         viewModelFactory = GameViewModelFactory(requireArguments().getInt("size"),
-                                                requireArguments().getString("name1","Player"),
-                                                requireArguments().getString("name2","Robot"))
+                                                requireArguments().getString("name1","Player1"),
+                                                requireArguments().getString("name2","Player2"))
         viewModel = ViewModelProvider(this,viewModelFactory).get(GameViewModel::class.java)
 
         val params: LinearLayout.LayoutParams =
@@ -46,14 +47,14 @@ class GameFragment : Fragment() {
 
         Log.i("TEST", requireArguments().getInt("TestVar").toString())
 
-        var col = 3
-        var row = 3
+//        var col = 3
+//        var row = 3
 
-        for (i in 0 until row){
+        for (i in 0 until viewModel.size.value!!){
             val tableRow = TableRow(context)
             tableRow.gravity = Gravity.CENTER
             binding.tableLayout.addView(tableRow)
-            for (j in 0 until col){
+            for (j in 0 until viewModel.size.value!!){
                // var newText = ""
                // when (viewModel.gameTable.value!![i][j]){
                //     1 -> newText = "O"
@@ -72,8 +73,10 @@ class GameFragment : Fragment() {
                     }
                     if (viewModel.newMove(i,j)){
                        (it as Button).text = checkElem
-                        var test = viewModel.checkWin(i,j)
-                        Log.i("IS WIN",test.toString())
+                        if(viewModel.checkWin(i,j)){
+                            Navigation.findNavController(it).navigate(R.id.action_gameFragment_to_endGameFragment)
+                        }
+                        //Log.i("IS WIN",test.toString())
                     }
 //                    else{
 //                        Log.i("FUCK","всё плохо")

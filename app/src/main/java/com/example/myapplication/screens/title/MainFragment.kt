@@ -6,34 +6,50 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentMainBinding
+import com.example.myapplication.screens.game.GameViewModel
+import com.example.myapplication.screens.game.GameViewModelFactory
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MainFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MainFragment : Fragment() {
+    private lateinit var binding: FragmentMainBinding
+    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModelFactory: MainViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater,
+        binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater,
             R.layout.fragment_main,container,false)
+
+        viewModelFactory = MainViewModelFactory()
+        viewModel = ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
 
         val bundle = Bundle()
         bundle.putInt("size",3)
         bundle.putString("name1","Name1")
         bundle.putString("name2","Name2")
-//        findNavController().navigate(R.id.action_mainFragment_to_gameFragment,bundle)
+
+        binding.checkBox.setOnClickListener {
+            if (viewModel.withRobot.value!!) //todo изменение отображения текстового поля для второго игрока
+        }
 
         binding.button.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_gameFragment,bundle)
+            var num = 0
+            try{
+                num = binding.editTextNumberSigned.text.toString().toInt()
+            } catch (_: NumberFormatException){}
+
+            if(viewModel.isOk(binding.checkBox.isChecked,binding.textPersonName1.text.toString(),
+                    binding.textPersonName2.text.toString(),
+                    num)){
+                Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_gameFragment,bundle)
+            }
         }
         return binding.root
     }
