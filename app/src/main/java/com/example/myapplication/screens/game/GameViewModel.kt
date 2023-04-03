@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 
 class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
 //   Todo переехать на строки
-    private var _gameTable = MutableLiveData<MutableList<MutableList<Int>>>() // mutableListOf<MutableList<Int>>()
-    val gameTable: LiveData<MutableList<MutableList<Int>>>
+    private var _gameTable = MutableLiveData<MutableList<MutableList<String>>>() // mutableListOf<MutableList<Int>>()
+    val gameTable: LiveData<MutableList<MutableList<String>>>
         get() = _gameTable
 
     private var _size = MutableLiveData<Int>()
@@ -33,16 +33,16 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         _name2.value = name2
         _isFirstPlayerTurn.value = true
 
-        _gameTable.value = mutableListOf<MutableList<Int>>()
+        _gameTable.value = mutableListOf<MutableList<String>>()
         createArray()
     }
 
     private fun createArray(){
         for (i in 0 until _size.value!!){
-            var row = mutableListOf<Int>()
+            var row = mutableListOf<String>()
             _gameTable.value?.add(row)
             for (j in 0 until _size.value!!){
-                row.add(0)
+                row.add("")
             }
         }
 
@@ -51,11 +51,11 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
 
     fun newMove(i:Int, j:Int): Boolean {
         Log.i("PLAYER",_isFirstPlayerTurn.value.toString())
-        var checkElem = 1
+        var checkElem = "X"
         if(_isFirstPlayerTurn.value == false) {
-            checkElem = 2
+            checkElem = "O"
         }
-        if(_gameTable.value!![i][j] == 0){
+        if(_gameTable.value!![i][j] == ""){
             _gameTable.value!![i][j]/*[i][j]*/ = checkElem
             _isFirstPlayerTurn.value = !_isFirstPlayerTurn.value!!
             return true
@@ -65,15 +65,15 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
     }
 
     fun checkWin(i:Int,j:Int): Boolean {
-        var checkElem = 1
-        if(_isFirstPlayerTurn.value == true /*== false*/){
-         checkElem = 2
+        var checkElem = "O"
+        if(_isFirstPlayerTurn.value == false /*== true*/){
+         checkElem = "X"
         }
         return (checkLefRight(checkElem,i,j) || checkTopBottom(checkElem,i,j) ||
                 checkDiagonalLeftRight(checkElem,i,j) || checkDiagonalRightLeft(checkElem,i,j))
     }
 
-    private fun checkDiagonalRightLeft(elem:Int,i:Int,j:Int):Boolean{
+    private fun checkDiagonalRightLeft(elem:String,i:Int,j:Int):Boolean{
         // проверка деагонали с верхнего правого до левого нижнего угла
         var count = 0
         var stepi = i
@@ -103,7 +103,7 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         return false
     }
 
-    private fun checkDiagonalLeftRight(elem:Int,i:Int,j:Int):Boolean{
+    private fun checkDiagonalLeftRight(elem:String,i:Int,j:Int):Boolean{
         // проверка деагонали сверхнего правого до левого нижнего угла
         var count = 0
         var stepi = i
@@ -132,7 +132,7 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         }
         return false
     }
-    private fun checkLefRight(elem:Int,i:Int,j:Int):Boolean{
+    private fun checkLefRight(elem:String,i:Int,j:Int):Boolean{
         // проверка слева на право
         var count = 0
         var stepj = j
@@ -158,7 +158,7 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
         return false
     }
 
-    private fun checkTopBottom(elem:Int,i:Int,j:Int):Boolean{
+    private fun checkTopBottom(elem:String,i:Int,j:Int):Boolean{
         // проверка сверху вниз
         var count = 0
         var stepi = i
