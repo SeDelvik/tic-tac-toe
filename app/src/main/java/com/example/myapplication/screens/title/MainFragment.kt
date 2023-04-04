@@ -27,7 +27,7 @@ class MainFragment : Fragment() {
         binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater,
             R.layout.fragment_main,container,false)
 
-        viewModelFactory = MainViewModelFactory()
+        viewModelFactory = MainViewModelFactory(3,false,"Player1","Player2")
         viewModel = ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
 
 
@@ -48,15 +48,8 @@ class MainFragment : Fragment() {
             if(viewModel.isOk(binding.checkBox.isChecked,binding.textPersonName1.text.toString(),
                     binding.textPersonName2.text.toString(),
                     num)){
-                val bundle = Bundle()
-                bundle.putInt("size",num)
-                bundle.putString("name1",binding.textPersonName1.text.toString())
-                bundle.putBoolean("againstRobot",binding.checkBox.isChecked)
-                if (binding.checkBox.isChecked){
-                    bundle.putString("name2","Robot")
-                }else{
-                    bundle.putString("name2",binding.textPersonName2.text.toString())
-                }
+
+                var bundle = createBundle()
                 Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_gameFragment,bundle)
             }
         }
@@ -89,5 +82,22 @@ class MainFragment : Fragment() {
         binding.editTextNumberSigned.setText(viewModel.size.value.toString())
         binding.checkBox.isChecked = viewModel._withRobot.value!!
         enabledDisabledField()
+    }
+
+    private fun createBundle():Bundle{
+        val bundle = Bundle()
+        var num = 0
+        try{
+            num = binding.editTextNumberSigned.text.toString().toInt()
+        } catch (_: NumberFormatException){}
+        bundle.putInt("size",num)
+        bundle.putString("name1",binding.textPersonName1.text.toString())
+        bundle.putBoolean("againstRobot",binding.checkBox.isChecked)
+        if (binding.checkBox.isChecked){
+            bundle.putString("name2","Robot")
+        }else{
+            bundle.putString("name2",binding.textPersonName2.text.toString())
+        }
+        return bundle
     }
 }

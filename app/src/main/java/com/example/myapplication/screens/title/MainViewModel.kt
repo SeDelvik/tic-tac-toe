@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class MainViewModel: ViewModel() {
+class MainViewModel(size:Int,withRobot:Boolean,name1:String,name2:String): ViewModel() {
     private var _size = MutableLiveData<Int>()
     val size: LiveData<Int>
         get() = _size
@@ -21,11 +21,11 @@ class MainViewModel: ViewModel() {
     val name2: LiveData<String>
         get()  =_name2
 
-    init { //todo убрать хард код
-        _size.value = 3
-        _withRobot.value = false
-        _name1.value = "Player1"
-        _name2.value = "Player2"
+    init {
+        _size.value = size //3
+        _withRobot.value = withRobot //false
+        _name1.value = name1 //"Player1"
+        _name2.value = name2 //"Player2"
     }
 
     fun isOk(isRobot:Boolean,name1:String,name2:String,size: Int):Boolean{

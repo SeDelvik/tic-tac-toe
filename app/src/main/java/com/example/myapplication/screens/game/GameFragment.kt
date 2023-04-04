@@ -34,7 +34,8 @@ class GameFragment : Fragment() {
 
         viewModelFactory = GameViewModelFactory(requireArguments().getInt("size"),
                                                 requireArguments().getString("name1","Player1"),
-                                                requireArguments().getString("name2","Player2"))
+                                                requireArguments().getString("name2","Player2"),
+                                                requireArguments().getBoolean("againstRobot"))
         viewModel = ViewModelProvider(this,viewModelFactory).get(GameViewModel::class.java)
 
         val params: LinearLayout.LayoutParams =
@@ -47,40 +48,35 @@ class GameFragment : Fragment() {
 
         Log.i("TEST", requireArguments().getInt("TestVar").toString())
 
-//        var col = 3
-//        var row = 3
-
         for (i in 0 until viewModel.size.value!!){
             val tableRow = TableRow(context)
             tableRow.gravity = Gravity.CENTER
             binding.tableLayout.addView(tableRow)
             for (j in 0 until viewModel.size.value!!){
-               // var newText = ""
-               // when (viewModel.gameTable.value!![i][j]){
-               //     1 -> newText = "O"
-               //     2 -> newText = "X"
-               // }
                 val button = Button(context)
                 //button.layoutParams = params
-                button.text = viewModel.gameTable.value!![i][j]//newText //""
+                button.text = viewModel.gameTable.value!![i][j]
                 button.textSize = 40.0F
 
                 button.setOnClickListener {
-                    Log.i("TEST","$i $j")
                     var checkElem = "O"
                     if(viewModel.isFirstPlayerTurn.value == false) {
                         checkElem = "X"
                     }
                     if (viewModel.newMove(i,j)){
                        (it as Button).text = checkElem
-                        if(viewModel.checkWin(i,j)){
-                            Navigation.findNavController(it).navigate(R.id.action_gameFragment_to_endGameFragment)
+                        if(viewModel.checkWin(i,j) || viewModel.checkDraw()){
+//                            var bundle = Bundle()
+//                            bundle.putSerializable("gameTable",viewModel.gameTable.value.toList())
+
+                            Navigation.findNavController(it).navigate(R.id.action_gameFragment_to_endGameFragment,viewModel.getBundle())
                         }
-                        //Log.i("IS WIN",test.toString())
+                        if(viewModel.againstRobot.value!!){
+                            var array = viewModel.robotTurn()
+                            var button = getButton(array[0],array[1])
+                            button.text = "X"
+                        }
                     }
-//                    else{
-//                        Log.i("FUCK","всё плохо")
-//                    }
                 }
                 tableRow.addView(button)
             }
@@ -89,6 +85,10 @@ class GameFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    private fun getButton(i:Int,j:Int):Button{
+       return (binding.tableLayout.getChildAt(i) as TableRow).getChildAt(j) as Button
     }
 
 }

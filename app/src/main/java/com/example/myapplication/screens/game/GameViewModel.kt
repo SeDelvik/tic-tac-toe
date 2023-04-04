@@ -1,11 +1,12 @@
 package com.example.myapplication.screens.game
 
+import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
+class GameViewModel(size:Int,name1:String,name2:String, againstRobot:Boolean) : ViewModel() {
     private var _gameTable = MutableLiveData<MutableList<MutableList<String>>>()
     val gameTable: LiveData<MutableList<MutableList<String>>>
         get() = _gameTable
@@ -26,11 +27,16 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
     val name2: LiveData<String>
         get()  =_name2
 
+    private var _againstRobot = MutableLiveData<Boolean>()
+    val againstRobot:LiveData<Boolean>
+        get() = _againstRobot
+
     init {
         _size.value = size
         _name1.value = name1
         _name2.value = name2
         _isFirstPlayerTurn.value = true
+        _againstRobot.value = againstRobot
 
         _gameTable.value = mutableListOf<MutableList<String>>()
         createArray()
@@ -49,13 +55,13 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
     }
 
     fun newMove(i:Int, j:Int): Boolean {
-        Log.i("PLAYER",_isFirstPlayerTurn.value.toString())
-        var checkElem = "X"
+
+        var checkElem = "O"
         if(_isFirstPlayerTurn.value == false) {
-            checkElem = "O"
+            checkElem = "X"
         }
         if(_gameTable.value!![i][j] == ""){
-            _gameTable.value!![i][j]/*[i][j]*/ = checkElem
+            _gameTable.value!![i][j] = checkElem
             _isFirstPlayerTurn.value = !_isFirstPlayerTurn.value!!
             return true
         }
@@ -65,11 +71,35 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
 
     fun checkWin(i:Int,j:Int): Boolean {
         var checkElem = "O"
-        if(_isFirstPlayerTurn.value == false /*== true*/){
+        if(_isFirstPlayerTurn.value == true){
          checkElem = "X"
         }
         return (checkLefRight(checkElem,i,j) || checkTopBottom(checkElem,i,j) ||
                 checkDiagonalLeftRight(checkElem,i,j) || checkDiagonalRightLeft(checkElem,i,j))
+    }
+
+    fun checkDraw(): Boolean{
+        for(row in _gameTable.value!!){
+            if("" in row){
+                return false
+            }
+        }
+        return true
+    }
+
+    fun robotTurn():Array<Int>{
+        var i = 0
+        var j = 0
+        while(true){
+            i = (0 until _size.value!!).random()
+            j = (0 until _size.value!!).random()
+            if(_gameTable.value!![i][j] == ""){
+                break
+            }
+        }
+        _isFirstPlayerTurn.value = !_isFirstPlayerTurn.value!!
+        _gameTable.value!![i][j] = "X"
+        return arrayOf(i,j)
     }
 
     private fun checkDiagonalRightLeft(elem:String,i:Int,j:Int):Boolean{
@@ -181,5 +211,20 @@ class GameViewModel(size:Int,name1:String,name2:String) : ViewModel() {
             return true
         }
         return false
+    }
+
+    fun getBundle():Bundle{
+        var bundle = Bundle()
+        bundle.putSerializable("gameTable",gameTable.value as java.io.Serializable)
+        var winner = "Draw"
+        if(!checkDraw()){
+            if(_isFirstPlayerTurn.value!!){
+                winner = _name2.value!!
+            }else{
+                winner = _name1.value!!
+            }
+        }
+        bundle.putString("winner",winner)
+        return bundle
     }
 }
