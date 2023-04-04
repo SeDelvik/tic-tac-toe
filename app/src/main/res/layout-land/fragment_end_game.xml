@@ -17,7 +17,7 @@
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
-                android:layout_height="57dp"
+                android:layout_height="25dp"
                 android:gravity="center"
                 android:text="@string/winner_is"
                 android:textSize="20sp" />
@@ -25,7 +25,7 @@
             <TextView
                 android:id="@+id/textViewWinner"
                 android:layout_width="match_parent"
-                android:layout_height="57dp"
+                android:layout_height="25dp"
                 android:gravity="center"
                 android:text="TextView"
                 android:textSize="20sp" />

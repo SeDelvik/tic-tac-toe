@@ -1,7 +1,6 @@
 package com.example.myapplication.screens.game
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TableRow
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -45,16 +43,12 @@ class GameFragment : Fragment() {
         binding.textView.text = viewModel.name1.value
         binding.textView2.text = viewModel.name2.value
 
-
-        Log.i("TEST", requireArguments().getInt("TestVar").toString())
-
         for (i in 0 until viewModel.size.value!!){
             val tableRow = TableRow(context)
             tableRow.gravity = Gravity.CENTER
             binding.tableLayout.addView(tableRow)
             for (j in 0 until viewModel.size.value!!){
                 val button = Button(context)
-                //button.layoutParams = params
                 button.text = viewModel.gameTable.value!![i][j]
                 button.textSize = 40.0F
 
@@ -66,14 +60,13 @@ class GameFragment : Fragment() {
                     if (viewModel.newMove(i,j)){
                        (it as Button).text = checkElem
                         if(viewModel.checkWin(i,j) || viewModel.checkDraw()){
-//                            var bundle = Bundle()
-//                            bundle.putSerializable("gameTable",viewModel.gameTable.value.toList())
-
-                            Navigation.findNavController(it).navigate(R.id.action_gameFragment_to_endGameFragment,viewModel.getBundle())
+                            Navigation.findNavController(it)
+                                .navigate(R.id.action_gameFragment_to_endGameFragment,viewModel
+                                    .getBundle(getString(R.string.draw)))
                         }
                         if(viewModel.againstRobot.value!!){
-                            var array = viewModel.robotTurn()
-                            var button = getButton(array[0],array[1])
+                            val array = viewModel.robotTurn()
+                            val button = getButton(array[0],array[1])
                             button.text = "X"
                         }
                     }

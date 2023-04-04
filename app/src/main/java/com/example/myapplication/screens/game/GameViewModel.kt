@@ -1,7 +1,6 @@
 package com.example.myapplication.screens.game
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -46,18 +45,15 @@ class GameViewModel(size:Int,name1:String,name2:String, againstRobot:Boolean) : 
 
     private fun createArray(){
         for (i in 0 until _size.value!!){
-            var row = mutableListOf<String>()
+            val row = mutableListOf<String>()
             _gameTable.value?.add(row)
             for (j in 0 until _size.value!!){
                 row.add("")
             }
         }
-
-        Log.i("values",_gameTable.value.toString())
     }
 
     fun newMove(i:Int, j:Int): Boolean {
-
         var checkElem = "O"
         if(_isFirstPlayerTurn.value == false) {
             checkElem = "X"
@@ -67,7 +63,6 @@ class GameViewModel(size:Int,name1:String,name2:String, againstRobot:Boolean) : 
             _isFirstPlayerTurn.value = !_isFirstPlayerTurn.value!!
             return true
         }
-
         return false
     }
 
@@ -219,10 +214,10 @@ class GameViewModel(size:Int,name1:String,name2:String, againstRobot:Boolean) : 
         return false
     }
 
-    fun getBundle():Bundle{
-        var bundle = Bundle()
+    fun getBundle(string: String):Bundle{
+        val bundle = Bundle()
         bundle.putSerializable("gameTable",gameTable.value as java.io.Serializable)
-        var winner = "Draw"
+        var winner = string
         if(_isWin.value!!){
             if(_isFirstPlayerTurn.value!!){
                 winner = _name2.value!!

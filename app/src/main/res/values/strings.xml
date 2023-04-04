@@ -5,4 +5,10 @@
     <string name="start">Start</string>
     <string name="tic_tac_toe">Tic-Tac-Toe</string>
     <string name="against_robot">Against robot</string>
+    <string name="winner_is">Winner is</string>
+    <string name="playername1">First player name</string>
+    <string name="playername2">Second player name</string>
+    <string name="size">field size</string>
+    <string name="draw">Draw</string>
+    <string name="robot">Robot</string>
 </resources>

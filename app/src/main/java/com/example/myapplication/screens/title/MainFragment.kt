@@ -8,11 +8,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentMainBinding
-import com.example.myapplication.screens.game.GameViewModel
-import com.example.myapplication.screens.game.GameViewModelFactory
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
@@ -23,14 +20,11 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater,
             R.layout.fragment_main,container,false)
 
         viewModelFactory = MainViewModelFactory(3,false,"Player1","Player2")
         viewModel = ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
-
-
 
         binding.checkBox.setOnClickListener {
             viewModel._withRobot.value = !viewModel._withRobot.value!!
@@ -44,12 +38,10 @@ class MainFragment : Fragment() {
             try{
                 num = binding.editTextNumberSigned.text.toString().toInt()
             } catch (_: NumberFormatException){}
-
             if(viewModel.isOk(binding.checkBox.isChecked,binding.textPersonName1.text.toString(),
                     binding.textPersonName2.text.toString(),
                     num)){
-
-                var bundle = createBundle()
+                val bundle = createBundle()
                 Navigation.findNavController(it).navigate(R.id.action_mainFragment_to_gameFragment,bundle)
             }
         }
@@ -62,9 +54,9 @@ class MainFragment : Fragment() {
         try{
             num = binding.editTextNumberSigned.text.toString().toInt()
         } catch (_: NumberFormatException){}
-        var name1 = binding.textPersonName1.text.toString()
-        var name2 = binding.textPersonName2.text.toString()
-        var isBot = binding.checkBox.isChecked
+        val name1 = binding.textPersonName1.text.toString()
+        val name2 = binding.textPersonName2.text.toString()
+        val isBot = binding.checkBox.isChecked
         viewModel.setParams(name1,name2,num,isBot)
     }
 
@@ -94,7 +86,7 @@ class MainFragment : Fragment() {
         bundle.putString("name1",binding.textPersonName1.text.toString())
         bundle.putBoolean("againstRobot",binding.checkBox.isChecked)
         if (binding.checkBox.isChecked){
-            bundle.putString("name2","Robot")
+            bundle.putString("name2",getString(R.string.robot))
         }else{
             bundle.putString("name2",binding.textPersonName2.text.toString())
         }

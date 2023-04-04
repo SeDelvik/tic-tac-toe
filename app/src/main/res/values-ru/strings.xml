@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="hello_blank_fragment2">Hello blank fragment2</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="start">Начать</string>
+    <string name="tic_tac_toe">Крестики-нолики</string>
+    <string name="against_robot">Против машины</string>
+    <string name="winner_is">Победил(а)</string>
+    <string name="playername1">Имя первого игрока</string>
+    <string name="playername2">Имя второго игрока</string>
+    <string name="size">размер поля</string>
+    <string name="draw">Ничья</string>
+    <string name="robot">Робот</string>
+</resources>

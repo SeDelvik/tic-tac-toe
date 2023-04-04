@@ -21,21 +21,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:hint="@string/playername1"
                 android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/textPersonName2"
+                style="3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name" />
+                android:hint="@string/playername2"
+                android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/editTextNumberSigned"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:hint="@string/size"
                 android:inputType="numberSigned" />
 
             <CheckBox

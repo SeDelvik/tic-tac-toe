@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.example.myapplication.R
-import com.example.myapplication.databinding.FragmentMainBinding
 import com.example.myapplication.databinding.FragmentStartBinding
 
 class StartFragment : Fragment() {
@@ -17,11 +16,9 @@ class StartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         val binding = DataBindingUtil.inflate<FragmentStartBinding>(inflater,
             R.layout.fragment_start,container,false)
 
-        //return inflater.inflate(R.layout.fragment_start, container, false)
         binding.button2.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_startFragment_to_mainFragment)
         }
