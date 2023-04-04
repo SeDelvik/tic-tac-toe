@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel(size:Int,name1:String,name2:String, againstRobot:Boolean) : ViewModel() {
+    private var _isWin = MutableLiveData<Boolean>(false) //false
+
     private var _gameTable = MutableLiveData<MutableList<MutableList<String>>>()
     val gameTable: LiveData<MutableList<MutableList<String>>>
         get() = _gameTable
@@ -74,8 +76,12 @@ class GameViewModel(size:Int,name1:String,name2:String, againstRobot:Boolean) : 
         if(_isFirstPlayerTurn.value == true){
          checkElem = "X"
         }
-        return (checkLefRight(checkElem,i,j) || checkTopBottom(checkElem,i,j) ||
-                checkDiagonalLeftRight(checkElem,i,j) || checkDiagonalRightLeft(checkElem,i,j))
+        if(checkLefRight(checkElem,i,j) || checkTopBottom(checkElem,i,j) ||
+            checkDiagonalLeftRight(checkElem,i,j) || checkDiagonalRightLeft(checkElem,i,j)){
+            _isWin.value = true
+            return true
+        }
+        return false
     }
 
     fun checkDraw(): Boolean{
@@ -217,7 +223,7 @@ class GameViewModel(size:Int,name1:String,name2:String, againstRobot:Boolean) : 
         var bundle = Bundle()
         bundle.putSerializable("gameTable",gameTable.value as java.io.Serializable)
         var winner = "Draw"
-        if(!checkDraw()){
+        if(_isWin.value!!){
             if(_isFirstPlayerTurn.value!!){
                 winner = _name2.value!!
             }else{
