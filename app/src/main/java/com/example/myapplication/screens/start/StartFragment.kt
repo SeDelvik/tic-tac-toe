@@ -16,8 +16,10 @@ class StartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = DataBindingUtil.inflate<FragmentStartBinding>(inflater,
-            R.layout.fragment_start,container,false)
+        val binding = DataBindingUtil.inflate<FragmentStartBinding>(
+            inflater,
+            R.layout.fragment_start, container, false
+        )
 
         binding.button2.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_startFragment_to_mainFragment)
